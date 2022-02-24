@@ -2,40 +2,13 @@
     <head>
         <title>Sunsweet's Latte Shop!</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script defer src="/src/index.js"></script>
     </head>
     <body>
         <h1>Sunsweet's Latte Reviews</h1>
         <ul>
 
         </ul>
-        <script>
-            const ul = document.querySelector('ul')
-            const init = async() => {
-                const goodResponse = await axios.get('/goodReviews');
-                const badResponse = await axios.get('/badReviews');
-                const goodReview = goodResponse.data;
-                const badReview = badResponse.data;
-
-                const html1 = goodReview.map(good => {
-                    return `
-                    <li>
-                        ${good.name} says that their favorite drink is the ${good.latte.name}
-                    </li>
-                    `;
-                }).join('');
-                const html2 = badReview.map(bad => {
-                    return `
-                    <li>
-                        ${bad.name} says that their least favorite drink is the ${bad.latte.name}
-                    </li>
-                    `;
-                }).join('');
-                ul.innerHTML = html1 + html2
-            }
-
-            init()
-
-        </script>
-            Click <a href='/latte'>here</a> to go back to the menu!
+        Click <a href='/latte'>here</a> to go back to the menu!
     </body>
 </html>
