@@ -21,15 +21,14 @@ const init = async() => {
         </li>
         `;
     }).join('');
-    // const html2 = badReview.map(bad => {
-    //     return `
-    //     <li='${bad.id}'>
-    //         ${bad.name} says that their least favorite drink is the ${bad.latte.name}
-    //     </li>
-    //     `;
-    // }).join('');
-    ul.innerHTML = html1
-    // + html2
+    const html2 = badReview.map(bad => {
+        return `
+        <li data-id='${bad.id}'>
+            ${bad.name} says that their least favorite drink is the ${bad.latte.name}
+        </li>
+        `;
+    }).join('');
+    ul.innerHTML = html1 + html2
 }
 
 init();
