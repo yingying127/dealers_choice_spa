@@ -1,39 +1,4 @@
-const { append } = require('express/lib/response');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/customer_lattes_db')
-
-const UUID = Sequelize.UUID;
-const UUIDV4 = Sequelize.UUIDV4
-
-const Latte = sequelize.define('latte', {
-    id: {
-        type: UUID,
-        primaryKey: true,
-        defaultValue: UUIDV4
-    },
-    name: {
-        type: Sequelize.STRING
-    }
-})
-
-const Customer = sequelize.define('customer', {
-    id: {
-        type: UUID,
-        primaryKey: true,
-        defaultValue: UUIDV4
-    },
-    name: {
-        type: Sequelize.STRING
-    },
-    type: {
-        type: Sequelize.ENUM('good review', 'bad review'),
-        defaultValue: 'good review'
-    }
-})
-
-Customer.belongsTo(Latte)
-Latte.hasMany(Customer)
-
+const { sequelize, models: {Latte, Customer } } = require('./db')
 const express = require('express');
 const app = express();
 
