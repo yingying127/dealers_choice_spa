@@ -40,6 +40,19 @@ const path = require('path')
 
 app.use('/src', express.static(path.join(__dirname, 'src')));
 
+app.get('/review', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')))
+
+app.delete('/review/:id', async(req, res, next) => {
+    try {
+        const customer = await Customer.findByPk(req.params.id);
+        await customer.destroy();
+        res.sendStatus(204)
+    }
+    catch(ex) {
+        next(ex)
+    }
+})
+
 app.get('/', (req, res) => res.redirect('/latte'));
 
 app.get('/latte', async(req, res, next) => {
@@ -70,8 +83,6 @@ app.get('/latte', async(req, res, next) => {
         next(ex)
     }
 })
-
-app.get('/review', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')))
 
 app.get('/badReviews', async(req, res, next) => {
     try {
