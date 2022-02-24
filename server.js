@@ -36,77 +36,100 @@ Latte.hasMany(Customer)
 
 const express = require('express');
 const app = express();
+const path = require('path')
 
-app.get('/', (req, res) => res.redirect('/latte'));
+// app.get('/', (req, res) => res.redirect('/latte'));
 
-app.get('/latte', async(req, res, next) => {
+// app.get('/latte', async(req, res, next) => {
+//     try {
+//         const lattes = await Latte.findAll()
+//         const html = lattes.map (latte => {
+//             return `
+//             <div>
+//                 ${latte.name.slice(0, 1).toUpperCase()}${latte.name.slice(1)}
+//             </div>
+//             `
+//         }).join('')
+//         res.send(`
+//         <html
+//         <head>
+//             <title>Sunsweet's Latte Shop!</title>
+//         </head>
+//         <body>
+//             <h1>Sunsweet's Latte Menu!</h1>
+//             ${ html }
+//             Not sure what to get? Click <a href='/reviews'>here</a> for reviews!
+//         </body>
+//         `)
+//     }
+//     catch(ex) {
+//         next(ex)
+//     }
+// })
+
+app.get('/latteReview', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')))
+
+app.get('/badReviews', async(req, res, next) => {
     try {
-        const lattes = await Latte.findAll()
-        const html = lattes.map (latte => {
-            return `
-            <div>
-                ${latte.name.slice(0, 1).toUpperCase()}${latte.name.slice(1)}
-            </div>
-            `
-        }).join('')
-        res.send(`
-        <html
-        <head>
-            <title>Sunsweet's Latte Shop!</title>
-        </head>
-        <body>
-            <h1>Sunsweet's Latte Menu!</h1>
-            ${ html }
-            Not sure what to get? Click <a href='/reviews'>here</a> for reviews!
-        </body>
-        `)
+        res.send(await Customer.findAll({
+                where: {
+                    type: 'bad review'
+                },
+                include: [ Latte ]
+            }))
+        // const badCustomers = await Customer.findAll({
+        //     where: {
+        //         type: 'bad review'
+        //     },
+        //     include: [ Latte ]
+        // });
+        // const goodCustomers = await Customer.findAll({
+        //     where: {
+        //         type: 'good review'
+        //     },
+        //     include: [ Latte ]
+        // })
+        // const html1 = badCustomers.map (customer => {
+        //     return `
+        //     <div>
+        //         ${customer.name} says that her least favorite drink is the ${customer.latte.name}.
+        //     </div>
+        //     `
+        // }).join('');
+        // const html2 = goodCustomers.map (customer => {
+        //     return `
+        //     <div>
+        //         ${customer.name} says that her favorite drink is the ${customer.latte.name}.
+        //     </div>
+        //     `
+        // }).join('');
+        // res.send(`
+        // <html
+        // <head>
+        //     <title>Sunsweet's Latte Shop!</title>
+        // </head>
+        // <body>
+        //     <h1>Sunsweet's Latte Shop: Reviews</h1>
+        //     <a href='/latte'>Back for more drinks</a>
+        //     ${html1}
+        //     ${html2}
+        // </body>
+        // </html>
+        // `)
     }
     catch(ex) {
         next(ex)
     }
 })
 
-app.get('/reviews', async(req, res, next) => {
+app.get('/goodReviews', async(req, res, next) => {
     try {
-        const badCustomers = await Customer.findAll({
-            where: {
-                type: 'bad review'
-            },
-            include: [ Latte ]
-        });
-        const goodCustomers = await Customer.findAll({
-            where: {
-                type: 'good review'
-            },
-            include: [ Latte ]
-        })
-        const html1 = badCustomers.map (customer => {
-            return `
-            <div>
-                ${customer.name} says that her least favorite drink is the ${customer.latte.name}.
-            </div>
-            `
-        }).join('');
-        const html2 = goodCustomers.map (customer => {
-            return `
-            <div>
-                ${customer.name} says that her favorite drink is the ${customer.latte.name}.
-            </div>
-            `
-        }).join('');
-        res.send(`
-        <html
-        <head>
-            <title>Sunsweet's Latte Shop!</title>
-        </head>
-        <body>
-            <h1>Sunsweet's Latte Shop: Reviews</h1>
-            <a href='/latte'>Back for more drinks</a>
-            ${html1}
-            ${html2}
-        </body>
-        </html>
-        `)
+        res.send(await Customer.findAll({
+                where: {
+                    type: 'good review'
+                },
+                include: [ Latte ]
+            }))
     }
     catch(ex) {
         next(ex)
