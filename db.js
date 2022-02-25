@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/customer_lattes_db')
 
-const UUID = Sequelize.UUID;
+const UUID = Sequelize.UUID
 const UUIDV4 = Sequelize.UUIDV4
 
 const Latte = sequelize.define('latte', {

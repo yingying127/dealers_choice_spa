@@ -4,7 +4,7 @@ ul.addEventListener('click', async(ev) => {
     if (ev.target.tagName === 'LI') {
         const id = ev.target.getAttribute('data-id');
         await axios.delete(`/review/${id}`);
-        init();
+        init()
     }
 });
 

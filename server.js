@@ -1,7 +1,7 @@
 const { syncAndSeed, models: { Latte, Customer }, sequelize } = require('./db')
 
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 const path = require('path')
 
 app.use('/src', express.static(path.join(__dirname, 'src')));
